@@ -11,6 +11,14 @@ from sklearn.metrics import classification_report,accuracy_score
 import os
 import pandas as pd
 import pickle
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.svm import SVC
+
+
 filename = "sign_mnist_train.csv"
 
 # initializing the titles and rows list
@@ -59,16 +67,18 @@ for row in rows:
     hog_images.append(hog_image)
     hog_features.append(fd)
     labels.append(row[0])
-
-clf = svm.SVC()
+param_grid = {'C':[1,10,100,1000],'gamma':[1,0.1,0.001,0.0001], 'kernel':['linear','rbf']}
+grid = GridSearchCV(SVC(),param_grid,refit = True, verbose=2)
+#clf = svm.SVC()
 hog_features = np.array(hog_features)
 labels = np.array(labels)
 #data_frame = np.hstack((hog_features,labels))
 #np.random.shuffle(data_frame)
 print("starting training")
-clf.fit(hog_features,labels)
+#clf.fit(hog_features,labels)
+grid.fit(hog_features,labels)
 print("finished training")
-
-filename = 'finalized_model.sav'
-pickle.dump(clf, open(filename, 'wb'))
+print(grid.best_params_)
+filename = 'finalized_model_gridparams.sav'
+pickle.dump(grid, open(filename, 'wb'))
 print("saved model to disk")

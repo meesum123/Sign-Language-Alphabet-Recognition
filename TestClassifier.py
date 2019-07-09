@@ -57,10 +57,12 @@ for row in rows:
     hog_features.append(fd)
     labels.append(row[0])
 
+
 hog_features = np.array(hog_features)
 labels = np.array(labels)
-
-filename = 'finalized_model.sav'
+print(len(hog_features[0]))
+print(len(labels))
+filename = 'finalized_model_gridparams.sav'
 loaded_model = pickle.load(open(filename, 'rb'))
 
 result = loaded_model.score(hog_features, labels)
