@@ -66,5 +66,16 @@ filename = 'finalized_model_gridparams.sav'
 loaded_model = pickle.load(open(filename, 'rb'))
 
 result = loaded_model.score(hog_features, labels)
-#result = loaded_model.predict(hog_features)
 print(result)
+
+#Uncomment for single sample
+#new = []
+image = cv2.imread("zero.jpg",0)
+image = cv2.resize(image, (28,28))
+cv2.imshow("Input", image)
+cv2.waitKey(0)
+#fd,hog_image = hog(image, orientations=8, pixels_per_cell=(ppc,ppc),cells_per_block=(1, 1),block_norm= 'L2',visualise=True)
+#new.append(fd)
+#new = np.array(new)
+#result = loaded_model.predict(new)
+#print(result)
